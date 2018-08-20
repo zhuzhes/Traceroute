@@ -1,0 +1,29 @@
+API
+class cymruwhois.Client(host='whois.cymru.com', port=43, memcache_host='localhost:11211')
+Python interface to whois.cymru.com
+
+Usage
+
+>>> import socket
+>>> ip = socket.gethostbyname("www.google.com")
+>>> from cymruwhois import Client
+>>> c=Client()
+>>> r=c.lookup(ip)
+>>> print r.asn
+15169
+>>> print r.owner
+GOOGLE - Google Inc.
+>>> 
+>>> ip_ms = socket.gethostbyname("www.microsoft.com")
+>>> for r in c.lookupmany([ip, ip_ms]):
+...     print r.owner
+GOOGLE - Google Inc.
+MICROSOFT-CORP---MSN-AS-BLOCK - Microsoft Corp
+lookup(ip)
+Look up a single address.
+
+Warning Do not call this function inside of a loop, the performance will be terrible. Instead, call lookupmany or lookupmany_dict
+lookupmany(ips)
+Look up many ip addresses
+lookupmany_dict(ips)
+Look up many ip addresses, returning a dictionary of ip -> record
